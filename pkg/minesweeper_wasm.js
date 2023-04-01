@@ -295,6 +295,22 @@ export class Minesweeper {
             wasm.__wbindgen_free(r0, r1);
         }
     }
+    /**
+    * @param {number} x
+    * @param {number} y
+    * @returns {boolean}
+    */
+    isBomb(x, y) {
+        const ret = wasm.minesweeper_isBomb(this.ptr, x, y);
+        return ret !== 0;
+    }
+    /**
+    * @param {number} x
+    * @param {number} y
+    */
+    clicked_bomb(x, y) {
+        wasm.minesweeper_clicked_bomb(this.ptr, x, y);
+    }
 }
 
 async function load(module, imports) {
