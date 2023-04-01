@@ -43,6 +43,17 @@ export class Minesweeper {
 * @returns {string}
 */
   getIcon(x: number, y: number): string;
+/**
+* @param {number} x
+* @param {number} y
+* @returns {boolean}
+*/
+  isBomb(x: number, y: number): boolean;
+/**
+* @param {number} x
+* @param {number} y
+*/
+  clicked_bomb(x: number, y: number): void;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -58,6 +69,8 @@ export interface InitOutput {
   readonly minesweeper_isLost: (a: number) => number;
   readonly minesweeper_isFinished: (a: number) => number;
   readonly minesweeper_getIcon: (a: number, b: number, c: number, d: number) => void;
+  readonly minesweeper_isBomb: (a: number, b: number, c: number) => number;
+  readonly minesweeper_clicked_bomb: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;

@@ -71,7 +71,7 @@ impl Minesweeper {
         if self.cells[y as usize][x as usize].is_revealed {
             return;
         }
-        self.cells[y as usize][x as usize].is_flagged = true;
+        self.cells[y as usize][x as usize].is_flagged = !self.cells[y as usize][x as usize].is_flagged;
     }
 
     #[wasm_bindgen(js_name = isWon)]
@@ -92,14 +92,10 @@ impl Minesweeper {
     #[wasm_bindgen(js_name = getIcon)]
     pub fn get_icon(&self, x: u32, y: u32) -> String {
         let cell = &self.cells[y as usize][x as usize];
-        if cell.is_mine {
-            if cell.is_flagged {
-                "🚩".to_string()
-            } else {
+        if cell.is_revealed {
+            if cell.is_mine {
                 "💣".to_string()
-            }
-        } else if cell.is_revealed {
-            if cell.adjacent_mines == 0 {
+            } else if cell.adjacent_mines == 0 {
                 "".to_string()
             } else {
                 cell.adjacent_mines.to_string()
@@ -109,6 +105,15 @@ impl Minesweeper {
         } else {
             "🟦".to_string()
         }
+    }
+
+    #[wasm_bindgen(js_name = isBomb)]
+    pub fn is_bomb(&self, x: u32, y: u32) -> bool {
+        self.cells[y as usize][x as usize].is_mine
+    }
+
+    pub fn clicked_bomb(&mut self, x: u32, y: u32) {
+        self.cells[y as usize][x as usize].is_revealed = true;
     }
 }
 
