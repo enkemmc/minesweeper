@@ -33,7 +33,6 @@ header > * {
 #board {
   display: grid;
   margin: 0 auto;
-  margin-top: 1rem;
   border: 1px solid #000;
   aspect-ratio: 1/1;
 }
@@ -145,7 +144,7 @@ button.selected {
     font-size: .8rem;
   }
   .cell {
-    font-size: .8rem;
+    font-size: 1rem;
   }
   h1 {
     font-size: 2rem;
@@ -160,7 +159,7 @@ button.selected {
     font-size: 1rem;
   }
   .cell {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   h1 {
     font-size: 2rem;
@@ -171,9 +170,8 @@ button.selected {
   label, span, input, button {
     font-size: 1.5rem;
   }
-
   .cell {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
   }
   h1 {
     font-size: 3rem;
