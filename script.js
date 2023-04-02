@@ -178,7 +178,7 @@ function updateBoardSize({ gameState}) {
   const board = document.getElementById('board');
   Array.from(board.childNodes).forEach(child => child.remove());
   const { edgeSize } = getGameSettings({ gameState });
-  const cellWidth = (.9 * window.innerWidth) / edgeSize;
+  const cellWidth = window.innerWidth / edgeSize;
   const cellHeight = (.8 * window.innerHeight) / edgeSize;
   const target = Math.min(cellWidth, cellHeight);
   board.style.gridTemplateColumns = `repeat(${edgeSize}, ${target}px)`;

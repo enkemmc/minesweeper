@@ -21,6 +21,7 @@ header {
   display: flex;
   flex-direction: column;
   height: 20vh;
+  max-height: 20vh;
   width: 100vw;
   flex:0;
 }
@@ -44,7 +45,8 @@ header > * {
   aspect-ratio: 1/1;
   display: flex;
   align-items: center;
-  justify-content: center;}
+  justify-content: center;
+}
 
 .visible {
   background-color: #fff;
@@ -139,7 +141,7 @@ button.selected {
   justify-content: center;
 }
 
-@media only screen and (min-width: 300px) {
+@media only screen and (min-height: 300px) {
   label, span, input, button {
     font-size: .8rem;
   }
@@ -154,7 +156,7 @@ button.selected {
   }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-height: 600px) {
   label, span, input, button {
     font-size: 1rem;
   }
@@ -166,9 +168,9 @@ button.selected {
   }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-height: 1000px) {
   label, span, input, button {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .cell {
     font-size: 2.2rem;
@@ -177,3 +179,4 @@ button.selected {
     font-size: 3rem;
   }
 }
+
