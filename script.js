@@ -98,10 +98,10 @@ function initHandlers({ gameState }) {
     handleDifficultyChange({ gameState });
   })
   reset.addEventListener('click', () => {
-    resetGame();
+    resetGame({ gameState });
   })
   solve.addEventListener('click', () => {
-    solveGame();
+    solveGame({ gameState });
   })
   newGameButton.addEventListener('click', () => {
     newGame({ gameState });
@@ -135,25 +135,41 @@ function initHandlers({ gameState }) {
 
 function resetGame({ gameState }) {
   const { edgeSize } = getGameSettings({ gameState });
-  gameState.game.reset();
   const board = document.getElementById('board');
   for (let i = 0; i < (edgeSize * edgeSize); i++) {
     const cell = board.childNodes[i];
     cell.innerText = '';
-    cell.classList.remove('.empty');
-    cell.classList.remove('.number');
+    cell.classList.remove('visible');
+    cell.classList.remove('bomb');
   }
 }
 
-function solveGame() {
-
+function solveGame({ gameState }) {
+  if (gameState.game === null) {
+    return
+  }
+  const { edgeSize } = getGameSettings({ gameState });
+  const board = document.getElementById('board');
+  let i = 0;
+  while (i < edgeSize * edgeSize) {
+    const cell = board.childNodes[i];
+    const x = i % edgeSize;
+    const y = Math.floor(i / edgeSize);
+    if (gameState.game.isBomb(x, y)) {
+      cell.innerText = '💣';
+      cell.classList.add('bomb');
+    } else {
+      cell.click()
+    }
+    i++
+  }
 }
 
 function updateBoardSize({ gameState}) {
   const board = document.getElementById('board');
   Array.from(board.childNodes).forEach(child => child.remove());
   const { edgeSize } = getGameSettings({ gameState });
-  const cellWidth = window.innerWidth / edgeSize;
+  const cellWidth = (.9 * window.innerWidth) / edgeSize;
   const cellHeight = (.8 * window.innerHeight) / edgeSize;
   const target = Math.min(cellWidth, cellHeight);
   board.style.gridTemplateColumns = `repeat(${edgeSize}, ${target}px)`;
@@ -188,9 +204,6 @@ function newGame({ gameState }) {
   gameState.timer = new Timer();
   gameState.timer.interval = setInterval(() => {
     timeText.innerText = gameState.timer.getElapsedSeconds();
-    //if (!timeText) {
-    //  clearInterval(gameState.timer.interval);
-    //}
   }, 1000);
 
   const { edgeSize, mineCount } = getGameSettings({ gameState });
@@ -199,9 +212,6 @@ function newGame({ gameState }) {
   const sqr_templ = document.createElement('div');
   sqr_templ.classList.add('cell');
 
-  // initialize game
-  // create 10x10 board with 10 mines
-  // set up onclick handlers
   const game = new Minesweeper(edgeSize, mineCount);
   gameState.game = game;
   let y = 0;
@@ -227,8 +237,6 @@ function newGame({ gameState }) {
       event.preventDefault();
       addFlagToCell({square, gameState});
     })
-    // right click
-    // todo
     board.appendChild(square);
   }
 }
@@ -311,9 +319,9 @@ const handleGameOver = ({ gameState }) => {
   const { edgeSize } = getGameSettings({ gameState });
 
   if (game.isWon()) {
-    status.textContent = 'You won!';
+    status.textContent = 'Victory!';
   } else {
-    status.textContent = 'You lost!';
+    status.textContent = 'Game Over';
     // reveal all bombs
     for (let i = 0; i < edgeSize * edgeSize; i++) {
       const y = Math.floor(i / edgeSize);

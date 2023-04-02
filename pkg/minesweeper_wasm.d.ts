@@ -12,11 +12,6 @@ export class Minesweeper {
 /**
 * @param {number} x
 * @param {number} y
-*/
-  open_helper(x: number, y: number): void;
-/**
-* @param {number} x
-* @param {number} y
 * @returns {any[]}
 */
   open(x: number, y: number): any[];
@@ -62,7 +57,6 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_minesweeper_free: (a: number) => void;
   readonly minesweeper_new: (a: number, b: number) => number;
-  readonly minesweeper_open_helper: (a: number, b: number, c: number) => void;
   readonly minesweeper_open: (a: number, b: number, c: number, d: number) => void;
   readonly minesweeper_toggleFlag: (a: number, b: number, c: number) => void;
   readonly minesweeper_isWon: (a: number) => number;

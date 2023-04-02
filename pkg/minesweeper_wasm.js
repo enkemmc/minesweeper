@@ -228,13 +228,6 @@ export class Minesweeper {
     /**
     * @param {number} x
     * @param {number} y
-    */
-    open_helper(x, y) {
-        wasm.minesweeper_open_helper(this.ptr, x, y);
-    }
-    /**
-    * @param {number} x
-    * @param {number} y
     * @returns {any[]}
     */
     open(x, y) {

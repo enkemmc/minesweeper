@@ -48,7 +48,7 @@ impl Minesweeper {
         }
     }
 
-    pub fn open_helper(&mut self, x: u32, y: u32) {
+    fn open_helper(&mut self, x: u32, y: u32) {
         if self.cells[y as usize][x as usize].is_revealed {
             return;
         }

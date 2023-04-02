@@ -3,7 +3,6 @@
 export const memory: WebAssembly.Memory;
 export function __wbg_minesweeper_free(a: number): void;
 export function minesweeper_new(a: number, b: number): number;
-export function minesweeper_open_helper(a: number, b: number, c: number): void;
 export function minesweeper_open(a: number, b: number, c: number, d: number): void;
 export function minesweeper_toggleFlag(a: number, b: number, c: number): void;
 export function minesweeper_isWon(a: number): number;
