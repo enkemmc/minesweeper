@@ -33,7 +33,6 @@ header > * {
 #board {
   display: grid;
   margin: 0 auto;
-  margin-top: 1rem;
   border: 1px solid #000;
   aspect-ratio: 1/1;
 }
@@ -125,7 +124,7 @@ button {
   color: black;
   border-width: .1px;
   font-size: 1.5rem;
-  margin: 2px 0;
+  margin: 1px 0;
 }
 
 button.selected {
@@ -133,12 +132,19 @@ button.selected {
   color: white;
 }
 
+#main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+}
+
 @media only screen and (min-width: 300px) {
   label, span, input, button {
-    font-size: 1rem;
+    font-size: .8rem;
   }
   .cell {
-    font-size: 1rem;
+    font-size: .7rem;
   }
   h1 {
     font-size: 2rem;
@@ -150,23 +156,22 @@ button.selected {
 
 @media only screen and (min-width: 600px) {
   label, span, input, button {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   .cell {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
   h1 {
     font-size: 2rem;
   }
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 800px) {
   label, span, input, button {
     font-size: 1.5rem;
   }
-
   .cell {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
   }
   h1 {
     font-size: 3rem;

@@ -132,15 +132,18 @@ function initHandlers({ gameState }) {
   })
 }
 
-
 function resetGame({ gameState }) {
-  const { edgeSize } = getGameSettings({ gameState });
-  const board = document.getElementById('board');
-  for (let i = 0; i < (edgeSize * edgeSize); i++) {
-    const cell = board.childNodes[i];
-    cell.innerText = '';
-    cell.classList.remove('visible');
-    cell.classList.remove('bomb');
+  if (gameState.game === null) {
+    newGame({ gameState });
+  } else {
+    const { edgeSize } = getGameSettings({ gameState });
+    const board = document.getElementById('board');
+    for (let i = 0; i < (edgeSize * edgeSize); i++) {
+      const cell = board.childNodes[i];
+      cell.innerText = '';
+      cell.classList.remove('visible');
+      cell.classList.remove('bomb');
+    }
   }
 }
 
@@ -159,10 +162,13 @@ function solveGame({ gameState }) {
       cell.innerText = '💣';
       cell.classList.add('bomb');
     } else {
-      cell.click()
+      cell.classList.add('visible');
     }
     i++
   }
+  gameState.timer.stop();
+  gameState.game.free();
+  gameState.game = null;
 }
 
 function updateBoardSize({ gameState}) {
@@ -355,7 +361,5 @@ const addIconToCell = (cell, game) => {
     cell.textContent = icon;
   }
 }
-
-
 
 main()
