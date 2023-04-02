@@ -153,19 +153,25 @@ function solveGame({ gameState }) {
   }
   const { edgeSize } = getGameSettings({ gameState });
   const board = document.getElementById('board');
+  console.log(edgeSize)
   let i = 0;
   while (i < edgeSize * edgeSize) {
     const cell = board.childNodes[i];
     const x = i % edgeSize;
     const y = Math.floor(i / edgeSize);
+    console.log(i)
+    console.log(x,y)
     if (gameState.game.isBomb(x, y)) {
       cell.innerText = '💣';
       cell.classList.add('bomb');
     } else {
-      cell.click()
+      cell.classList.add('visible');
     }
     i++
   }
+  gameState.timer.stop();
+  gameState.game.free();
+  gameState.game = null;
 }
 
 function updateBoardSize({ gameState}) {
@@ -358,7 +364,5 @@ const addIconToCell = (cell, game) => {
     cell.textContent = icon;
   }
 }
-
-
 
 main()
