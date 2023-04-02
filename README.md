@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Demo](#screenshots)
 - [Install](#install)
+- [Why](#why)
 
 ## Introduction
 This is a Minesweeper game written in Rust and compiled to WebAssembly (WASM) for web deployment. The game follows the classic rules of Minesweeper, where the player must uncover all non-bomb cells on the board while avoiding detonating any bombs.
@@ -20,3 +21,7 @@ Hosted via [Github Pages](https://enkemmc.github.io/minesweeper/)!
 3. In the repository directory, run `wasm-pack build --target web` to compile the project to WebAssembly.
 4. Serve the `index.html` file using a web server of your choice. For example, install [live-server](https://crates.io/crates/live-server), run `live-server` in the repository directory and navigate to `http://localhost:8080`.
 5. Play the game in your web browser!
+
+## Why
+
+I was curious how much additional effort would be required to include a webassembly module in a front-end project.  This project also gave me an opportunity to work with the latest webassembly APIs.  I now have a better understanding of the drawbacks and benefits of including webassembly in future projects.
