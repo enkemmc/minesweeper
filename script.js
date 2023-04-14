@@ -97,9 +97,6 @@ function initHandlers({ gameState }) {
     gameState.difficulty = 'custom';
     handleDifficultyChange({ gameState });
   })
-  reset.addEventListener('click', () => {
-    resetGame({ gameState });
-  })
   solve.addEventListener('click', () => {
     solveGame({ gameState });
   })
@@ -130,21 +127,6 @@ function initHandlers({ gameState }) {
     }
     custom.click()
   })
-}
-
-function resetGame({ gameState }) {
-  if (gameState.game === null) {
-    newGame({ gameState });
-  } else {
-    const { edgeSize } = getGameSettings({ gameState });
-    const board = document.getElementById('board');
-    for (let i = 0; i < (edgeSize * edgeSize); i++) {
-      const cell = board.childNodes[i];
-      cell.innerText = '';
-      cell.classList.remove('visible');
-      cell.classList.remove('bomb');
-    }
-  }
 }
 
 function solveGame({ gameState }) {
@@ -185,12 +167,17 @@ function updateBoardSize({ gameState}) {
 }
 
 class Timer {
-  constructor() {
+  constructor(element) {
     this.start = new Date().getTime();
+    this.element = element;
   }
 
   stop() {
     clearInterval(this.interval);
+  }
+
+  reset() {
+    this.start = new Date().getTime();
   }
 
   getElapsed() {
@@ -205,12 +192,13 @@ class Timer {
 function newGame({ gameState }) {
   if (gameState.game) {
     gameState.timer.stop()
+    gameState.timer.element.innerText = '0';
     gameState.game.free();
   }
   const status = document.getElementById('status-text');
   status.innerText = 'Playing';
   const timeText = document.getElementById('status-time');
-  gameState.timer = new Timer();
+  gameState.timer = new Timer(timeText);
   gameState.timer.interval = setInterval(() => {
     timeText.innerText = gameState.timer.getElapsedSeconds();
   }, 1000);
@@ -231,21 +219,40 @@ function newGame({ gameState }) {
     // add data attributes
     square.dataset.y = y;
     square.dataset.x = i % edgeSize; 
-
-    // left click
-    square.addEventListener('click', event => {
-      event.preventDefault();
-      if (gameState.flagMode) {
-        addFlagToCell({square, gameState});
-      } else {
+    if (window.ontouchstart === undefined) {
+      square.addEventListener('click', event => {
+        console.log('handling click')
         openCell({square, gameState});
-      }
-    })
+      })
+      // for some reason contextmenu is firing on touch devices
+      // so we need to handle it differently
+      square.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        addFlagToCell({square, gameState});
+      })
+    } else {
+      square.addEventListener('touchstart', event => {
+        console.log('handling touchstart')
+        square.dataset.timeStamp = event.timeStamp;
+        const interval = setInterval(() => {
+          console.log('setinterval tick')
+          addFlagToCell({square, gameState});
+        }
+        , 750);
 
-    square.addEventListener('contextmenu', event => {
-      event.preventDefault();
-      addFlagToCell({square, gameState});
-    })
+        const end = event => {
+          // if the touch lased less than 500ms, open the cell
+          if (event.timeStamp - square.dataset.timeStamp < 750) {
+            openCell({square, gameState});
+          }
+          clearInterval(interval);
+        }
+ 
+        square.addEventListener('touchend', end);
+        square.addEventListener('touchcancel', end);
+      })
+    }
+
     board.appendChild(square);
   }
 }
@@ -274,6 +281,7 @@ function openCell({square, gameState}) {
 }
 
 function addFlagToCell({square, gameState}) {
+  console.log('addflagtocell called')
   const x = square.dataset.x;
   const y = square.dataset.y;
   gameState.game.toggleFlag(x, y);

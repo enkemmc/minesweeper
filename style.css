@@ -2,6 +2,11 @@ html {
   display: flex;
 }
 
+button {
+
+  cursor: pointer;
+}
+
 h1 {
   padding: 1rem 0;
 }
@@ -46,6 +51,7 @@ header > * {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .visible {
