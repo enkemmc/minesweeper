@@ -164,6 +164,7 @@ function updateBoardSize({ gameState}) {
   const cellHeight = (.8 * window.innerHeight) / edgeSize;
   const target = Math.min(cellWidth, cellHeight);
   board.style.gridTemplateColumns = `repeat(${edgeSize}, ${target}px)`;
+  board.style.fontSize = `${target * .7}px`;
 }
 
 class Timer {
@@ -221,7 +222,6 @@ function newGame({ gameState }) {
     square.dataset.x = i % edgeSize; 
     if (window.ontouchstart === undefined) { // desktop
       square.addEventListener('click', event => {
-        console.log('handling click')
         openCell({square, gameState});
       })
       square.addEventListener('contextmenu', event => {
@@ -230,10 +230,8 @@ function newGame({ gameState }) {
       })
     } else { // mobile
       square.addEventListener('touchstart', event => {
-        console.log('handling touchstart')
         square.dataset.timeStamp = event.timeStamp;
         const interval = setInterval(() => {
-          console.log('setinterval tick')
           addFlagToCell({square, gameState});
         }
         , 750);
@@ -248,6 +246,11 @@ function newGame({ gameState }) {
  
         square.addEventListener('touchend', end);
         square.addEventListener('touchcancel', end);
+        // our touchstart handling causes conflicts with mobile's default behavior
+        // for contextmenu
+        square.addEventListener('contextmenu', event => {
+          event.preventDefault();
+        })
       })
       // our touchstart handling causes conflicts with mobile's default behavior
       // for contextmenu
@@ -284,7 +287,6 @@ function openCell({square, gameState}) {
 }
 
 function addFlagToCell({square, gameState}) {
-  console.log('addflagtocell called')
   const x = square.dataset.x;
   const y = square.dataset.y;
   gameState.game.toggleFlag(x, y);

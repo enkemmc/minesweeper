@@ -52,6 +52,7 @@ header > * {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  user-select: none;
 }
 
 .visible {
@@ -151,9 +152,6 @@ button.selected {
   label, span, input, button {
     font-size: .8rem;
   }
-  .cell {
-    font-size: .7rem;
-  }
   h1 {
     font-size: 2rem;
   }
@@ -166,9 +164,6 @@ button.selected {
   label, span, input, button {
     font-size: 1rem;
   }
-  .cell {
-    font-size: 1.2rem;
-  }
   h1 {
     font-size: 2rem;
   }
@@ -177,9 +172,6 @@ button.selected {
 @media only screen and (min-height: 1000px) {
   label, span, input, button {
     font-size: 1.2rem;
-  }
-  .cell {
-    font-size: 2.2rem;
   }
   h1 {
     font-size: 3rem;
