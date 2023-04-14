@@ -219,18 +219,16 @@ function newGame({ gameState }) {
     // add data attributes
     square.dataset.y = y;
     square.dataset.x = i % edgeSize; 
-    if (window.ontouchstart === undefined) {
+    if (window.ontouchstart === undefined) { // desktop
       square.addEventListener('click', event => {
         console.log('handling click')
         openCell({square, gameState});
       })
-      // for some reason contextmenu is firing on touch devices
-      // so we need to handle it differently
       square.addEventListener('contextmenu', event => {
         event.preventDefault();
         addFlagToCell({square, gameState});
       })
-    } else {
+    } else { // mobile
       square.addEventListener('touchstart', event => {
         console.log('handling touchstart')
         square.dataset.timeStamp = event.timeStamp;
@@ -250,6 +248,11 @@ function newGame({ gameState }) {
  
         square.addEventListener('touchend', end);
         square.addEventListener('touchcancel', end);
+        // our touchstart handling causes conflicts with mobile's default behavior
+        // for contextmenu
+        square.addEventListener('contextmenu', event => {
+          event.preventDefault();
+        })
       })
     }
 
