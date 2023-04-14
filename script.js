@@ -248,6 +248,11 @@ function newGame({ gameState }) {
  
         square.addEventListener('touchend', end);
         square.addEventListener('touchcancel', end);
+        // our touchstart handling causes conflicts with mobile's default behavior
+        // for contextmenu
+        square.addEventListener('contextmenu', event => {
+          event.preventDefault();
+        })
       })
       // our touchstart handling causes conflicts with mobile's default behavior
       // for contextmenu
