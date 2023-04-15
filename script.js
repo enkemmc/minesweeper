@@ -8,7 +8,6 @@ async function main() {
     game: null,
     timer: null,
     difficulty: 'easy',
-    flagMode: false
   }
   initHandlers({ gameState });
   newGame({ gameState });
@@ -69,14 +68,12 @@ function disableCustomFields(disabled) {
 function initHandlers({ gameState }) {
   const edgeSize = document.getElementById('custom-edge-size');
   const mineCount = document.getElementById('custom-mine-count');
-  const reset = document.getElementById('reset-game');
   const solve = document.getElementById('solve-game');
   const newGameButton = document.getElementById('new-game');
   const easy = document.getElementById('easy');
   const medium = document.getElementById('medium');
   const hard = document.getElementById('hard');
   const custom = document.getElementById('custom');
-  const flagmode = document.getElementById('flag-mode');
   const playAgainButton = document.getElementById('play-again-button');
 
   easy.addEventListener('click', () => {
@@ -103,14 +100,6 @@ function initHandlers({ gameState }) {
   })
   newGameButton.addEventListener('click', () => {
     newGame({ gameState });
-  })
-  flagmode.addEventListener('click', () => {
-    gameState.flagMode = !gameState.flagMode;
-    if (gameState.flagMode) {
-      flagmode.classList.add('selected');
-    } else {
-      flagmode.classList.remove('selected');
-    }
   })
   playAgainButton.addEventListener('click', () => {
     showCountdown()
