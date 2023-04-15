@@ -77,6 +77,7 @@ function initHandlers({ gameState }) {
   const hard = document.getElementById('hard');
   const custom = document.getElementById('custom');
   const flagmode = document.getElementById('flag-mode');
+  const playAgainButton = document.getElementById('play-again-button');
 
   easy.addEventListener('click', () => {
     gameState.difficulty = 'easy';
@@ -111,6 +112,10 @@ function initHandlers({ gameState }) {
       flagmode.classList.remove('selected');
     }
   })
+  playAgainButton.addEventListener('click', () => {
+    showCountdown()
+    newGame({ gameState });
+  })
 
   edgeSize.addEventListener('change', () => {
     const { edgeSize, mineCount } = getGameSettings({ gameState });
@@ -128,6 +133,7 @@ function initHandlers({ gameState }) {
     custom.click()
   })
 }
+
 
 function solveGame({ gameState }) {
   if (gameState.game === null) {
@@ -355,9 +361,34 @@ const handleGameOver = ({ gameState }) => {
       }
     }
   }
-
+  toggleOverlay()
   gameState.game.free();
   gameState.game = null;
+}
+
+const showCountdown = () => {
+  const playAgainButton = document.getElementById('play-again-button');
+  const countdown = document.getElementById('countdown'); 
+  const overlay = document.getElementById('overlay'); 
+
+  playAgainButton.classList.add('hide')
+  countdown.classList.add('show')
+  setTimeout(() => {
+    countdown.classList.remove('show')
+    overlay.classList.remove('show')
+    playAgainButton.classList.remove('hide')
+  }, 4000)
+}
+
+const toggleOverlay = () => {
+  const overlay = document.getElementById('overlay');
+  const playAgainButton = document.getElementById('play-again-button');
+  if (overlay.classList.contains('show')) {
+    overlay.classList.remove('show')
+  } else {
+    overlay.classList.add('show')
+    playAgainButton.classList.add('show')
+  }
 }
 
 const addIconToCell = (cell, game) => {
