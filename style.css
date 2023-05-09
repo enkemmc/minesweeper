@@ -157,6 +157,10 @@ button.selected {
   .custom-input > label {
     padding-right: .5rem;
   }
+  #main {
+    justify-content: flex-start;
+    padding-top: 40px;
+  }
 }
 
 @media only screen and (min-height: 600px) {
@@ -166,6 +170,10 @@ button.selected {
   h1 {
     font-size: 2rem;
   }
+  #main {
+    justify-content: flex-start;
+    padding-top: 40px;
+  }
 }
 
 @media only screen and (min-height: 1000px) {
@@ -174,6 +182,10 @@ button.selected {
   }
   h1 {
     font-size: 3rem;
+  }
+  #main {
+    justify-content: flex-start;
+    padding-top: 40px;
   }
 }
 
@@ -226,35 +238,43 @@ button.selected {
 }
 
 .countdown-item {
+  color: white;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  transition: font-size 1s ease;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  font-size: 10em;
 }
 
-.countdown-item:nth-child(1) {
-  animation: countdown 4s 0s ease-in-out 1;
+#countdown-three {
+  animation: countdown 1s 0s forwards;
 }
 
-.countdown-item:nth-child(2) {
-  animation: countdown 3s 1s ease-in-out 1;
+#countdown-two {
+  animation: countdown 1s 1s forwards;
 }
 
-.countdown-item:nth-child(3) {
-  animation: countdown 2s 2s ease-in-out 1;
+#countdown-one {
+  animation: countdown 1s 2s forwards;
 }
 
-.countdown-item:nth-child(4) {
-  animation: countdown 1s 3s ease-in-out 1;
+#countdown-go {
+  animation: countdown 1s 3s forwards;
 }
 
 @keyframes countdown {
   0% {
-    font-size: 10em;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
   100% {
-    font-size: 0;
+    transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
 }

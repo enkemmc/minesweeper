@@ -101,8 +101,8 @@ function initHandlers({ gameState }) {
   newGameButton.addEventListener('click', () => {
     newGame({ gameState });
   })
-  playAgainButton.addEventListener('click', () => {
-    showCountdown()
+  playAgainButton.addEventListener('click', async () => {
+    await showCountdown()
     newGame({ gameState });
   })
 
@@ -130,14 +130,11 @@ function solveGame({ gameState }) {
   }
   const { edgeSize } = getGameSettings({ gameState });
   const board = document.getElementById('board');
-  console.log(edgeSize)
   let i = 0;
   while (i < edgeSize * edgeSize) {
     const cell = board.childNodes[i];
     const x = i % edgeSize;
     const y = Math.floor(i / edgeSize);
-    console.log(i)
-    console.log(x,y)
     if (gameState.game.isBomb(x, y)) {
       cell.innerText = '💣';
       cell.classList.add('bomb');
@@ -152,14 +149,15 @@ function solveGame({ gameState }) {
 }
 
 function updateBoardSize({ gameState}) {
+  const header = document.getElementsByTagName('header')[0];
   const board = document.getElementById('board');
   Array.from(board.childNodes).forEach(child => child.remove());
   const { edgeSize } = getGameSettings({ gameState });
   const cellWidth = window.innerWidth / edgeSize;
-  const cellHeight = (.8 * window.innerHeight) / edgeSize;
-  const target = Math.min(cellWidth, cellHeight);
+  const cellHeight = .9*(window.innerHeight - header.offsetHeight) / edgeSize;
+  const target = Math.floor(Math.min(cellWidth, cellHeight));
   board.style.gridTemplateColumns = `repeat(${edgeSize}, ${target}px)`;
-  board.style.fontSize = `${target * .7}px`;
+  board.style.fontSize = `${target * .6}px`;
 }
 
 class Timer {
@@ -355,18 +353,23 @@ const handleGameOver = ({ gameState }) => {
   gameState.game = null;
 }
 
-const showCountdown = () => {
+const showCountdown = async () => {
   const playAgainButton = document.getElementById('play-again-button');
   const countdown = document.getElementById('countdown'); 
   const overlay = document.getElementById('overlay'); 
 
   playAgainButton.classList.add('hide')
   countdown.classList.add('show')
-  setTimeout(() => {
-    countdown.classList.remove('show')
-    overlay.classList.remove('show')
-    playAgainButton.classList.remove('hide')
-  }, 4000)
+
+  // dont start new game until this resolves
+  await new Promise(async (res, _rej) => {
+    setTimeout(() => {
+      countdown.classList.remove('show')
+      overlay.classList.remove('show')
+      playAgainButton.classList.remove('hide')
+      res()
+    }, 4000)
+  })
 }
 
 const toggleOverlay = () => {
